@@ -16,7 +16,6 @@
                     id="nome"
                     value="{{ old('nome') }}"
                     placeholder="Ex: Introdução à Programação"
-                    required
                 >
                 @error('nome')
                     <span class="error">{{ $message }}</span>

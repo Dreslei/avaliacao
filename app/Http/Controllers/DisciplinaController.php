@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Disciplina;
+use App\Http\Requests\BaseRequest;
 
 class DisciplinaController extends Controller
 {
@@ -14,6 +15,7 @@ class DisciplinaController extends Controller
     public function index()
     {
         $disciplinas = Disciplina::where('created_by', auth()->id())->get();
+        // $disciplinas = Disciplina::all();
         return view('disciplinas.index', compact('disciplinas'));
     }
 
@@ -28,13 +30,10 @@ class DisciplinaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BaseRequest $request)
     {
 
-        $data = $request->validate([
-            'nome'       => 'required|string|max:255',
-            'descricao'  => 'nullable|string',
-        ]);
+        $data = $request->validated();
 
         $data['created_by'] = Auth::id();
 
@@ -92,14 +91,8 @@ class DisciplinaController extends Controller
     {
         $disciplina = Disciplina::findOrFail($id);
         
-        if ($disciplina->created_by !== Auth::id()) {
-            abort(403);
-        }
-
         $disciplina->delete();
 
-        return redirect()
-            ->route('disciplinas.index')
-            ->with('success', 'Disciplina excluída com sucesso!');
+        return redirect()->route('disciplinas.index');
     }
 }
