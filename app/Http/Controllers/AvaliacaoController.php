@@ -16,9 +16,18 @@ class AvaliacaoController extends Controller
     public function index()
     {
         // Obtém todas as avaliações criadas pelo usuário autenticado
-        $avaliacoes = Avaliacao::where('created_by', Auth::id())->with('disciplina')->get();
+        // $avaliacoes = Avaliacao::where('created_by', Auth::id())->with('disciplina')->get();
 
-        // Retorna a view com as avaliações compact é usado para passar variáveis para a view
+        // // Retorna a view com as avaliações compact é usado para passar variáveis para a view
+        // return view('avaliacoes.index', compact('avaliacoes'));
+
+        // Paginação:
+        $avaliacoes = Avaliacao::where('created_by', Auth::id())
+            ->with('disciplina')
+            ->orderByDesc('id')
+            ->paginate(10)                
+            ->withQueryString();         
+
         return view('avaliacoes.index', compact('avaliacoes'));
     }
 

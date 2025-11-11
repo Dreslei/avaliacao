@@ -14,8 +14,14 @@ class DisciplinaController extends Controller
      */
     public function index()
     {
-        $disciplinas = Disciplina::where('created_by', auth()->id())->get();
-        // $disciplinas = Disciplina::all();
+        // $disciplinas = Disciplina::where('created_by', auth()->id())->get();
+        // $disciplinas = Disciplina::all(); // Buscar tudo, ignorando quem criou (created_by)
+
+        $disciplinas = Disciplina::where('created_by', auth()->id())
+        ->orderBy('nome')
+        ->paginate(10)              
+        ->withQueryString(); 
+
         return view('disciplinas.index', compact('disciplinas'));
     }
 

@@ -46,5 +46,18 @@
                 @endforelse
             </tbody>
         </table>
+
+        @if ($avaliacoes->hasPages())
+            <div class="pagination">
+                <div class="pagination-info">
+                    {{ $avaliacoes->firstItem() }}–{{ $avaliacoes->lastItem() }}
+                    de {{ $avaliacoes->total() }}
+                </div>
+
+                <div class="pagination-links">
+                    {{ $avaliacoes->links() }}
+                </div>
+            </div>
+        @endif
     </div>
 </x-layouts.app>
